@@ -1,0 +1,11 @@
+#!/bin/bash
+# coding: utf-8
+
+# 脚本使用方式: ./pick_port && gunicorn -w 32 manage:app -b 0.0.0.0:${SERVER_PORT}
+# 脚本的工作任务:
+#     1. 占用一个随机端口
+#     2. 设置环境变量 server_port 为 端口号
+
+OCCUPIED_PORTS=$(ss -nt | awk 'NR>1{print $4}' | sed s/.*://g | sort -un | awk '$0>1024')
+RANDOM_PORT=$(diff <( seq 1025 65535 ) <( echo $OCCUPIED_PORTS ) | awk '/</{print $2}' | shuf -n 1)
+export SERVER_PORT="$RANDOM_PORT"
