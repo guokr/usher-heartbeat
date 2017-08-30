@@ -1,0 +1,6 @@
+#!/usr/bin/env python
+
+import MonitorAndHeartbeat
+
+monitor = MonitorAndHeartbeat()
+monitor.start_work()
