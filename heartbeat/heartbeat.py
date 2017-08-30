@@ -56,9 +56,7 @@ class UsherClientConfig(object):
 
         self.api_origin_spec = dumps(yaml.load(yaml_file))
 
-        j = yaml.load(yaml_file)
-        j = expand(j)
-        self.api_spec = dumps(j)
+        self.api_spec = dumps(expand(yaml.load(yaml_file)))
 
     @property
     def register_url(self):
