@@ -6,9 +6,9 @@
 
 ## 安装
 
-添加这行到requirements.txt文件中
-会安装两个可执行文件 pick\_port 和 heartbeat
-git+https://github.com/guokr/usher-heartbeat.git@master
+- 添加这行到requirements.txt文件中
+- 会安装两个可执行文件 pick\_port 和 heartbeat
+- git+https://github.com/guokr/usher-heartbeat.git@master
 
 ## 使用方式
 
