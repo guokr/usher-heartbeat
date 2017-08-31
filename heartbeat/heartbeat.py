@@ -50,7 +50,7 @@ class UsherClientConfig(object):
     # 服务版本
     VERSION = env.get("VERSION", "")
     # 健康检查 路径
-    HEALTH_PATH = env.get("HEALTH_PATH", "/health")
+    HEALTH_PATH = env.get("HEALTH_PATH", "")
 
     def __init__(self):
         with open(self.YAML) as f:
