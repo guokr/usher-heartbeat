@@ -6,16 +6,17 @@ def readme():
         return f.read()
 
 setup(
-    name="usher-heartbeat",
-    version="0.1",
+    name="usher_heartbeat",
+    version="0.1.0",
     description="register and keep heartbeat for backend app",
+    keywords="guokr gateway usher register heartbeat",
     packages=["heartbeat"],
-    scripts=[
-        "bin/heartbeat",
-        "bin/pick_port",
-    ],
     install_requires=[
         "pyyaml",
         "requests",
+    ],
+    scripts=[
+        "bin/heartbeat",
+        "bin/pick_port",
     ],
 )

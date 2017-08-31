@@ -10,7 +10,7 @@
 
 - 取得端口
 ```
-root@ubuntu:~$ pick_port
+root@ubuntu:~$ . pick_port && gunicorn -w 2 manage:app -b 0.0.0.0:${SERVER_PORT}
 ```
 
 - 保持心跳
