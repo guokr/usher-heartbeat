@@ -98,7 +98,10 @@ class MonitorAndHeartbeat():
         """
         检查健康API是否还在工作
         """
-        ret = get(api_url)
+        ret = get(
+            api_url,
+            timeout=(0.5, 1),
+        )
         if ret.ok:
             return True
         return False
