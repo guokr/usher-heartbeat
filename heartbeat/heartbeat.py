@@ -18,9 +18,9 @@ from expand import expand
 监控gunicorn启动的web server
 监控指标如下：
     - 端口占用情况 ss -lnt | grep 5000
-    - supervisord 监听事件发送来的 event info
-    - 如果web服务有健康检查 定时请求 /heath API 检查存活
+    - 如果web服务有健康检查 定时请求 /health API 检查存活
     - 如果是异步任务 检测PID是否存在
+    - supervisord 监听事件发送来的 event info
 监控到 server instance 挂掉的反应:
     - 停止发送心跳包
     - 全局变量 is_alive 设置为 False 直到服务启动
@@ -49,6 +49,8 @@ class UsherClientConfig(object):
     YAML = env.get("YAML", "")
     # 服务版本
     VERSION = env.get("VERSION", "")
+    # 健康检查 路径
+    HEALTH_PATH = env.get("HEALTH_PATH", "/health")
 
     def __init__(self):
         with open(self.YAML) as f:
@@ -158,7 +160,7 @@ class MonitorAndHeartbeat():
             "port": self.config_params.PORT,
             "version": self.config_params.VERSION,
         }
-        ret = post(self.config_params.heartbeat_url, json=body, timeout=(3, 5))
+        ret = post(self.config_params.heartbeat_url, json=body, timeout=(1, 3))
         if ret.ok:
             return True
         return False
@@ -169,6 +171,14 @@ class MonitorAndHeartbeat():
             try:
                 if self.config_params.API_TYPE == "async":
                     assert self.check_process_id()
+                elif self.config_params.HEALTH_PATH:
+                    assert self.check_api_health(
+                        "{}:{}{}".format(
+                            "http://localhost",
+                            self.config_params.PORT,
+                            self.config_params.HEALTH_PATH,
+                        )
+                    )
                 else:
                     assert self.check_port_listen(self.config_params.PORT)
 
